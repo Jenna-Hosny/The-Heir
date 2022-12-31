@@ -11,7 +11,7 @@ import javafx.scene.image.*;
     static Scenes Scenes = new Scenes();
     
     public void start(Stage primaryStage) throws Exception {
-      Scenes.menu(primaryStage);
+      Scenes.Mainmenu(primaryStage);
     }
       public static void main(String[] args) {
         launch(args);
