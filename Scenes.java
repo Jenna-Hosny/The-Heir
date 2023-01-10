@@ -11,29 +11,47 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scenes {
 
   static GameLoop GameLoop = new GameLoop();
-  //MovementController movementController = new MovementController();
+  SpriteSheetProcessor Sheet = new SpriteSheetProcessor();
   
   //Border Edge Boxes
-    static VBox vbox1;
-      static HBox hbox1;
-      static HBox hbox2;
-        static HBox hbox4;
-        static VBox vbox2;
-        static HBox hbox5;
-      static HBox hbox3;
+   VBox vbox1;
+     HBox hbox1;
+     HBox hbox2;
+       HBox hbox4;
+       VBox vbox2;
+       HBox hbox5;
+     HBox hbox3;
   
-    static ImageView MainPlayButton;
-    static ImageView MainLoadButton;
-    static ImageView MainTutorialButton;
-    static ImageView MainExitButton;
-    static Scene scene;
-    static AnchorPane menupane;
+   ImageView MainPlayButton;
+   ImageView MainLoadButton;
+   ImageView MainTutorialButton;
+   ImageView MainExitButton;
+   Scene scene;
+   AnchorPane menupane;
+   ImageView player;
+   AnchorPane prologuePane;
+
+  ImageView Image1;
+  ImageView Image2;
+  ImageView Image3;
+  ImageView Image4;
+  ImageView Image5;
+  ImageView Image6;
+  ImageView Image7;
+  ImageView Image8;
+  ImageView Image9;
+
+  Rectangle playerSolidArea;
   
-  public static void borderSetup() {
+  public void borderSetup() {
     vbox1 = new VBox();
       hbox1 = new HBox();
       hbox2 = new HBox();
@@ -191,30 +209,45 @@ public class Scenes {
     primaryStage.setFullScreen(true);
   }
   
-  public static void Prologue() {
+  public void Prologue() {
+
+    Image spriteSheet = new Image("Assets/MainCharacterAnim/SpriteSheet.png");
+
+    List<Image> walkingSprites = Sheet.processSpriteSheet(spriteSheet);
     
     Image img;
-    AnchorPane prologuePane = new AnchorPane();
-    ImageView player;
-    Rectangle rect;
+    prologuePane = new AnchorPane();
+    Rectangle collisiontest;
 
     prologuePane.setMinHeight(675);
     prologuePane.setMinWidth(1200);
     prologuePane.setMaxHeight(675);
     prologuePane.setMaxWidth(1200);
 
-    img = new Image("Assets/sprite.jpg");
+    img = new Image("Assets/MainCharacterAnim/DOWN/Down1.png");
     player = new ImageView(img);
     player.setPreserveRatio(true);
-    player.setFitHeight(100);
-    player.setFitWidth(100);
+    player.setFitHeight(75);
+    //player.setFitWidth(100);
 
-    rect = new Rectangle(200, 200, 50, 50);
+    collisiontest = new Rectangle(200, 200, 50, 50);
+    collisiontest.setId("collisiontest");
+    
+    playerSolidArea = new Rectangle();
+    playerSolidArea.setX(21.5);
+    playerSolidArea.setY(36);
+    playerSolidArea.setWidth(32);
+    playerSolidArea.setHeight(30);
+    playerSolidArea.setFill(Color.TRANSPARENT);
+    //playerSolidArea.xProperty().bind(player.xProperty());
+    //playerSolidArea.yProperty().bind(player.yProperty());
+    //player.getChildren().add(playerSolidArea);
 
-    prologuePane.getChildren().addAll(player, rect);
+    prologuePane.getChildren().addAll(collisiontest, playerSolidArea, player);
+  
     vbox2.getChildren().clear();
     vbox2.getChildren().add(prologuePane);
     vbox2.setVgrow(prologuePane, Priority.ALWAYS);
-    GameLoop.switchScene(player, prologuePane, scene);
+    GameLoop.switchScene(player, playerSolidArea, prologuePane, scene);
   }
 }
